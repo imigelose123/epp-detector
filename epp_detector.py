@@ -22,32 +22,9 @@ import lmstudio as lms
 
 
 # Prompt del sistema para detección de EPP
-SYSTEM_PROMPT = """Eres un experto en seguridad industrial y Equipos de Protección Personal (EPP).
-
-Tu tarea es analizar imágenes de personas en entornos de trabajo y detectar qué EPP están utilizando.
-
-Analiza la imagen y responde en el siguiente formato JSON (solo el JSON, sin texto adicional):
-
-{
-  "analisis": "breve descripción de lo que se observa en la imagen",
-  "epp_detectados": [
-    {"nombre": "nombre del EPP", "estado": "presente|ausente", "observaciones": "notas adicionales"}
-  ],
-  "recomendaciones": ["lista de recomendaciones si faltan EPP"],
-  "cumple_normativa": true/false
-}
-
-EPP a detectar:
-- Casco de seguridad
-- Gafas/lentes de protección
-- Chaleco reflectante
-- Guantes de seguridad
-- Botas de seguridad
-- Arnés de seguridad (para trabajos en altura)
-- Protección auditiva (orejeras/tapones)
-- Respirador/máscara (cuando aplique)
-
-Sé específico y preciso en tu análisis."""
+SYSTEM_PROMPT = """Eres un experto en seguridad industrial. Analiza la imagen y detecta equipos de proteccion personal (EPP).
+Responde en formato JSON con: analisis, epp_detectados (nombre, estado, observaciones), recomendaciones, cumple_normativa.
+EPP a detectar: casco, gafas, chaleco, guantes, botas, arnes, proteccion auditiva, respirador."""
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -172,8 +149,7 @@ def main():
         # Crear el chat con el mensaje del sistema
         chat = lms.Chat(SYSTEM_PROMPT)
         chat.add_user_message(
-            "Analiza esta imagen y detecta los equipos de protección personal "
-            "que la persona está utilizando. Responde en el formato JSON especificado.",
+            "Describe esta imagen y lista los equipos de proteccion personal que ves.",
             images=[image_handle]
         )
 
@@ -194,6 +170,8 @@ def main():
         sys.exit(1)
     except Exception as e:
         print(f"[!] Error inesperado: {e}", file=sys.stderr)
+        print(f"[!] Asegurate de que LM Studio este corriendo con un modelo VLM (vision-language model)", file=sys.stderr)
+        print(f"[!] Modelos VLM recomendados: qwen2-vl-2b-instruct, llava-v1.5-7b", file=sys.stderr)
         sys.exit(1)
 
 
