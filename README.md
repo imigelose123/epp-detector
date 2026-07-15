@@ -131,3 +131,11 @@ Este proyecto es de código abierto y está disponible bajo la licencia MIT.
 - [LM Studio](https://lmstudio.ai/) - Sitio oficial
 - [Documentación del SDK Python](https://lmstudio.ai/docs/python)
 - [Documentación de entrada de imágenes](https://lmstudio.ai/docs/python/llm-prediction/image-input)
+
+## Ejemplos
+
+```bash
+uv run epp_detector.py -i .\imagenes\sincasco1.jpg
+uv run epp_detector.py -i .\imagenes\casco1.jpg
+```
+  
